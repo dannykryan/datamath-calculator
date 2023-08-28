@@ -1,0 +1,120 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background-color: #DCC7A9;
+}
+
+.display {
+    display: flex;
+    background-color: #141022;
+    height: 60px;
+    color: white;
+}
+
+.display p {
+    color: red;
+    text-align: right;
+}
+
+.logos {
+    display: flex;
+    background-color: black;
+    justify-content: space-between;
+    align-content: center;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-bottom: 10px;
+    border-bottom: solid 2px #292929;
+}
+
+#texas-logo {
+    height: 45px;
+    padding-left: 75px;
+}
+
+h1 {
+    background-color: black;
+    color: #C0C0C0;
+    margin-right: 15px;
+    font-family: 'Crete Round', serif;
+    letter-spacing: 1px;
+}
+
+.btn {
+    height: 75px;
+    width: 75px;
+    margin: 10px;
+    font-size: 40px;
+}
+
+.btn:hover {
+    color: black;
+}
+
+.calculator {
+    background-color: black;
+    padding: 15px;
+    border-radius: 20px 20px 0px 0px;
+    
+}
+
+.number {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    background-color: #F1EFEC;
+    border: none;
+    color: black;
+}
+
+.number:hover {
+    background-color: #c2c2c2;
+}
+
+.decimal {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    background-color: #F1EFEC;
+    border: none;
+    color: black;
+}
+
+.decimal:hover {
+    background-color: #c2c2c2;
+}
+
+.equals {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    background-color: #FF9C1E;
+    border: none;
+    color: black;
+    flex-grow: 2;
+}
+
+.equals:hover {
+    background-color: #d38226;
+}
+
+.operator {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    background-color: #DCC7A9;
+    border: none;
+    color: black;
+}
+
+.operator:hover {
+    background-color: #a89882;
+}
+
+.zero {
+    flex-grow: 2;
+}
+
+.bottom-row {
+    display: flex;
+}
