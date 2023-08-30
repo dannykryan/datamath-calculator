@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Digital-7';
+    src: url(Fonts/digital-7.ttf);
+}
+
 body {
     display: flex;
     justify-content: center;
@@ -11,13 +16,28 @@ body {
 .display {
     display: flex;
     background-color: #141022;
-    height: 60px;
-    color: white;
+    height: 73px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .display p {
     color: red;
-    text-align: right;
+    font-family: 'Digital-7', 'Courier New', Courier, monospace;
+    font-size:  52px;
+    margin-left: auto;
+    letter-spacing: 3px;
+}
+
+p:first-of-type {
+    color: rgba(255, 0, 0, 0.712);
+    font-size: 22px;
+    line-height: 25px;
+}
+
+p:nth-of-type(2) {
+    line-height: 14px;
 }
 
 .logos {
