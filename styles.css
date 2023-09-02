@@ -119,7 +119,7 @@ h1 {
     background-color: #d38226;
 }
 
-.operator {
+.operator, .clear, .clear-entry {
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
     background-color: #DCC7A9;
@@ -127,7 +127,7 @@ h1 {
     color: black;
 }
 
-.operator:hover {
+.operator:hover, .clear:hover, .clear-entry:hover {
     background-color: #a89882;
 }
 

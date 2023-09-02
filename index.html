@@ -19,8 +19,8 @@
   <body>
     <div class="calculator">
       <div class="display">
-        <p></p>
-        <p></p>
+        <p id="display2"></p>
+        <p id="display1"></p>
       </div>
       <div class="logos">
         <img
@@ -32,43 +32,86 @@
       </div>
       <div class="first-row">
         <div class="screen"></div>
-        <button class="btn btn-lg btn-outline-secondary operator" id="CE">
+        <button class="btn btn-lg btn-outline-secondary clear-entry" id="CE">
           CE
         </button>
-        <button class="btn btn-lg btn-outline-secondary operator" id="divide">
+        <button
+          class="btn btn-lg btn-outline-secondary operator"
+          id="divide"
+          data-value="/"
+        >
           ÷
         </button>
-        <button class="btn btn-lg btn-outline-secondary operator" id="multiply">
+        <button
+          class="btn btn-lg btn-outline-secondary operator"
+          id="multiply"
+          data-value="*"
+        >
           x
         </button>
       </div>
       <div class="other-rows">
-        <button class="btn btn-lg btn-outline-secondary number">7</button>
-        <button class="btn btn-lg btn-outline-secondary number">8</button>
-        <button class="btn btn-lg btn-outline-secondary number">9</button>
-        <button class="btn btn-lg btn-outline-secondary operator" id="clear">
+        <button class="btn btn-lg btn-outline-secondary number" data-value="7">
+          7
+        </button>
+        <button class="btn btn-lg btn-outline-secondary number" data-value="8">
+          8
+        </button>
+        <button class="btn btn-lg btn-outline-secondary number" data-value="9">
+          9
+        </button>
+        <button class="btn btn-lg btn-outline-secondary clear" id="clear">
           C
         </button>
       </div>
       <div class="other-rows">
-        <button class="btn btn-lg btn-outline-secondary number">4</button>
-        <button class="btn btn-lg btn-outline-secondary number">5</button>
-        <button class="btn btn-lg btn-outline-secondary number">6</button>
-        <button class="btn btn-lg btn-outline-secondary operator" id="subtract">
+        <button class="btn btn-lg btn-outline-secondary number" data-value="4">
+          4
+        </button>
+        <button class="btn btn-lg btn-outline-secondary number" data-value="5">
+          5
+        </button>
+        <button class="btn btn-lg btn-outline-secondary number" data-value="6">
+          6
+        </button>
+        <button
+          class="btn btn-lg btn-outline-secondary operator"
+          id="subtract"
+          data-value="-"
+        >
           -
         </button>
       </div>
       <div class="other-rows">
-        <button class="btn btn-lg btn-outline-secondary number">1</button>
-        <button class="btn btn-lg btn-outline-secondary number">2</button>
-        <button class="btn btn-lg btn-outline-secondary number">3</button>
-        <button class="btn btn-lg btn-outline-secondary operator" id="add">
+        <button class="btn btn-lg btn-outline-secondary number" data-value="1">
+          1
+        </button>
+        <button class="btn btn-lg btn-outline-secondary number" data-value="2">
+          2
+        </button>
+        <button class="btn btn-lg btn-outline-secondary number" data-value="3">
+          3
+        </button>
+        <button
+          class="btn btn-lg btn-outline-secondary operator"
+          id="add"
+          data-value="+"
+        >
           +
         </button>
       </div>
       <div class="bottom-row">
-        <button class="btn btn-lg btn-outline-secondary number zero">0</button>
-        <button class="btn btn-lg btn-outline-secondary decimal" id="decimal">
+        <button
+          class="btn btn-lg btn-outline-secondary number zero"
+          data-value="0"
+        >
+          0
+        </button>
+        <button
+          class="btn btn-lg btn-outline-secondary decimal"
+          id="decimal"
+          data-value="."
+        >
           .
         </button>
         <button class="btn btn-lg btn-outline-secondary equals" id="equals">
