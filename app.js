@@ -1,8 +1,8 @@
 var mainDisplay = document.getElementById("display1");
 var secondaryDisplay = document.getElementById("display2");
 
-var num1 = 0;
-var num2 = 0;
+var firstOperand = 0;
+var secondOperand = 0;
 var operator = false;
 var ready = true;
 var mainDisplayLimit = 14; // Set a dynamic limit for the main display
@@ -26,7 +26,7 @@ document.addEventListener("click", function (event) {
     // else if an operator button is clicked
   } else if (event.target.classList.contains("operator")) {
     if (!operator) {
-      num1 = parseFloat(mainDisplay.textContent);
+      firstOperand = parseFloat(mainDisplay.textContent);
       // get the value of the operator
       const operatorValue = event.target.getAttribute("data-value");
       // update our secondary display to track our sum
@@ -35,8 +35,8 @@ document.addEventListener("click", function (event) {
       mainDisplay.textContent = "";
       operator = operatorValue;
     } else {
-      num2 = parseFloat(mainDisplay.textContent);
-      num1 = calculate(num1, num2, operator);
+      secondOperand = parseFloat(mainDisplay.textContent);
+      firstOperand = calculate(firstOperand, secondOperand, operator);
       const operatorValue = event.target.getAttribute("data-value");
       secondaryDisplay.textContent += mainDisplay.textContent;
       mainDisplay.textContent = "";
@@ -66,16 +66,20 @@ document.addEventListener("click", function (event) {
   } else if (event.target.classList.contains("equals")) {
     // update the secondary display and run the calculation
     secondaryDisplay.textContent += mainDisplay.textContent += "=";
-    num2 = parseFloat(mainDisplay.textContent);
+    secondOperand = parseFloat(mainDisplay.textContent);
 
-    if (!isNaN(num2)) {
-      // Check if num2 is a valid number
-      mainDisplay.textContent = calculate(num1, num2, operator);
+    if (!isNaN(secondOperand)) {
+      // Check if secondOperand is a valid number
+      mainDisplay.textContent = calculate(
+        firstOperand,
+        secondOperand,
+        operator
+      );
     } else {
       mainDisplay.textContent = "ERROR";
     }
 
-    // Clear num1, num2, and operator as the calculation is complete
+    // Clear firstOperand, secondOperand, and operator as the calculation is complete
     reset();
   }
 });
@@ -83,21 +87,21 @@ document.addEventListener("click", function (event) {
 // const calculateExpression = function(secondaryDisplay.textContent)
 
 const reset = function () {
-  num1 = 0;
-  num2 = 0;
+  firstOperand = 0;
+  secondOperand = 0;
   operator = false;
   ready = true;
 };
 
-const calculate = function (num1, num2, operator) {
+const calculate = function (firstOperand, secondOperand, operator) {
   if (operator === "+") {
-    return num1 + num2;
+    return firstOperand + secondOperand;
   } else if (operator === "-") {
-    return num1 - num2;
+    return firstOperand - secondOperand;
   } else if (operator === "*") {
-    return num1 * num2;
+    return firstOperand * secondOperand;
   } else if (operator === "/") {
-    return num1 / num2;
+    return firstOperand / secondOperand;
   } else {
     return "ERROR";
   }
