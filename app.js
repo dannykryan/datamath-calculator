@@ -1,6 +1,12 @@
 var mainDisplay = document.getElementById("display1");
 var secondaryDisplay = document.getElementById("display2");
 
+var num1 = 0;
+var num2 = 0;
+var operator = false;
+var ready = true;
+var mainDisplayLimit = 14; // Set a dynamic limit for the main display
+
 // update display when a 'number' button is clicked and concatenate it's data-value
 document.addEventListener("click", function (event) {
   if (ready === true) {
@@ -11,10 +17,12 @@ document.addEventListener("click", function (event) {
   if (event.target.classList.contains("number")) {
     // Get the value of the clicked button from the data attribute
     const buttonValue = event.target.getAttribute("data-value");
-    // Limit the mainDisplay to 14 chatacters
-    mainDisplay.textContent = mainDisplay.textContent.slice(0, 13);
-    // Update the calculator display with the button's value
-    mainDisplay.textContent += buttonValue;
+
+    // Limit the mainDisplay to the specified number of characters
+    if (mainDisplay.textContent.length < mainDisplayLimit) {
+      mainDisplay.textContent += buttonValue;
+    }
+
     // else if an operator button is clicked
   } else if (event.target.classList.contains("operator")) {
     if (!operator) {
@@ -59,21 +67,27 @@ document.addEventListener("click", function (event) {
     // update the secondary display and run the calculation
     secondaryDisplay.textContent += mainDisplay.textContent += "=";
     num2 = parseFloat(mainDisplay.textContent);
-    mainDisplay.textContent = calculate(num1, num2, operator);
-    // Clear num1, num2 and operator as the calculation is complete
-    num1 = 0;
-    num2 = 0;
-    operator = false;
-    ready = true;
+
+    if (!isNaN(num2)) {
+      // Check if num2 is a valid number
+      mainDisplay.textContent = calculate(num1, num2, operator);
+    } else {
+      mainDisplay.textContent = "ERROR";
+    }
+
+    // Clear num1, num2, and operator as the calculation is complete
+    reset();
   }
 });
 
 // const calculateExpression = function(secondaryDisplay.textContent)
 
-var num1 = 0;
-var num2 = 0;
-var operator = false;
-var ready = true;
+const reset = function () {
+  num1 = 0;
+  num2 = 0;
+  operator = false;
+  ready = true;
+};
 
 const calculate = function (num1, num2, operator) {
   if (operator === "+") {
@@ -85,6 +99,6 @@ const calculate = function (num1, num2, operator) {
   } else if (operator === "/") {
     return num1 / num2;
   } else {
-    return "ERROR. No valid operator.";
+    return "ERROR";
   }
 };
