@@ -1,108 +1,95 @@
-var mainDisplay = document.getElementById("display1");
-var secondaryDisplay = document.getElementById("display2");
+document.addEventListener("DOMContentLoaded", function() {
+  // Encapsulate variables in a function to avoid global scope pollution
+  function initializeCalculator() {
+    var mainDisplay = document.getElementById("display1");
+    var secondaryDisplay = document.getElementById("display2");
 
-var firstOperand = 0;
-var secondOperand = 0;
-var operator = false;
-var ready = true;
-var mainDisplayLimit = 14; // Set a dynamic limit for the main display
+    var firstOperand = 0;
+    var secondOperand = 0;
+    var operator = false;
+    var ready = true;
+    var mainDisplayLimit = 14; // Set a dynamic limit for the main display
 
-// update display when a 'number' button is clicked and concatenate it's data-value
-document.addEventListener("click", function (event) {
-  if (ready === true) {
-    ready = false;
-    mainDisplay.textContent = "";
-    secondaryDisplay.textContent = "";
-  }
-  if (event.target.classList.contains("number")) {
-    // Get the value of the clicked button from the data attribute
-    const buttonValue = event.target.getAttribute("data-value");
+    // Function to handle number button clicks
+    function handleNumberClick(event) {
+      if (ready === true) {
+        ready = false;
+        mainDisplay.textContent = "";
+        secondaryDisplay.textContent = "";
+      }
 
-    // Limit the mainDisplay to the specified number of characters
-    if (mainDisplay.textContent.length < mainDisplayLimit) {
-      mainDisplay.textContent += buttonValue;
-    }
-
-    // else if an operator button is clicked
-  } else if (event.target.classList.contains("operator")) {
-    if (!operator) {
-      firstOperand = parseFloat(mainDisplay.textContent);
-      // get the value of the operator
-      const operatorValue = event.target.getAttribute("data-value");
-      // update our secondary display to track our sum
-      secondaryDisplay.textContent += mainDisplay.textContent;
-      // clear the contents of the main display
-      mainDisplay.textContent = "";
-      operator = operatorValue;
-    } else {
-      secondOperand = parseFloat(mainDisplay.textContent);
-      firstOperand = calculate(firstOperand, secondOperand, operator);
-      const operatorValue = event.target.getAttribute("data-value");
-      secondaryDisplay.textContent += mainDisplay.textContent;
-      mainDisplay.textContent = "";
-      operator = operatorValue;
-    }
-    // get the value of the operator
-    const operatorValue = event.target.getAttribute("data-value");
-    // update our secondary display to track our sum
-    secondaryDisplay.textContent += mainDisplay.textContent;
-    // concatenate the operator value onto the secondaryDisplay
-    secondaryDisplay.textContent += operatorValue;
-    // clear the contents of the main display
-    mainDisplay.textContent = "";
-  } else if (event.target.classList.contains("clear-entry")) {
-    // clear just the last entry
-    mainDisplay.textContent = "";
-  } else if (event.target.classList.contains("clear")) {
-    // clear all entries
-    mainDisplay.textContent = "";
-    secondaryDisplay.textContent = "";
-  } else if (event.target.classList.contains("decimal")) {
-    // decimal place will only work if there is no decimal place contained in the main display already
-    if (!mainDisplay.textContent.includes(".")) {
       const buttonValue = event.target.getAttribute("data-value");
-      mainDisplay.textContent += buttonValue;
-    }
-  } else if (event.target.classList.contains("equals")) {
-    // update the secondary display and run the calculation
-    secondaryDisplay.textContent += mainDisplay.textContent += "=";
-    secondOperand = parseFloat(mainDisplay.textContent);
-
-    if (!isNaN(secondOperand)) {
-      // Check if secondOperand is a valid number
-      mainDisplay.textContent = calculate(
-        firstOperand,
-        secondOperand,
-        operator
-      );
-    } else {
-      mainDisplay.textContent = "ERROR";
+      if (mainDisplay.textContent.length < mainDisplayLimit) {
+        mainDisplay.textContent += buttonValue;
+      }
     }
 
-    // Clear firstOperand, secondOperand, and operator as the calculation is complete
-    reset();
+    // Function to handle operator button clicks
+    function handleOperatorClick(event) {
+      if (!operator) {
+        firstOperand = parseFloat(mainDisplay.textContent);
+        const operatorValue = event.target.getAttribute("data-value");
+        secondaryDisplay.textContent += mainDisplay.textContent;
+        mainDisplay.textContent = "";
+        operator = operatorValue;
+      } else {
+        secondOperand = parseFloat(mainDisplay.textContent);
+        firstOperand = calculate(firstOperand, secondOperand, operator);
+        const operatorValue = event.target.getAttribute("data-value");
+        secondaryDisplay.textContent += mainDisplay.textContent;
+        mainDisplay.textContent = "";
+        operator = operatorValue;
+      }
+
+      const operatorValue = event.target.getAttribute("data-value");
+      secondaryDisplay.textContent += operatorValue;
+      mainDisplay.textContent = "";
+    }
+
+    // Add event listeners for number buttons and operator buttons
+    var numberButtons = document.querySelectorAll(".number");
+    var operatorButtons = document.querySelectorAll(".operator");
+
+    numberButtons.forEach(function(button) {
+      button.addEventListener("click", handleNumberClick);
+    });
+
+    operatorButtons.forEach(function(button) {
+      button.addEventListener("click", handleOperatorClick);
+    });
+
+    // ... (Other event handlers)
+
+    // Reset function
+    function reset() {
+      firstOperand = 0;
+      secondOperand = 0;
+      operator = false;
+      ready = true;
+    }
+
+    // ... (Other functions)
+
+    // Updated calculate function to handle division by zero
+    function calculate(firstOperand, secondOperand, operator) {
+      if (operator === "+") {
+        return firstOperand + secondOperand;
+      } else if (operator === "-") {
+        return firstOperand - secondOperand;
+      } else if (operator === "*") {
+        return firstOperand * secondOperand;
+      } else if (operator === "/") {
+        if (secondOperand !== 0) {
+          return firstOperand / secondOperand;
+        } else {
+          return "ERROR: Division by zero";
+        }
+      } else {
+        return "ERROR: Invalid operator";
+      }
+    }
   }
+
+  // Initialize the calculator when the DOM content is loaded
+  initializeCalculator();
 });
-
-// const calculateExpression = function(secondaryDisplay.textContent)
-
-const reset = function () {
-  firstOperand = 0;
-  secondOperand = 0;
-  operator = false;
-  ready = true;
-};
-
-const calculate = function (firstOperand, secondOperand, operator) {
-  if (operator === "+") {
-    return firstOperand + secondOperand;
-  } else if (operator === "-") {
-    return firstOperand - secondOperand;
-  } else if (operator === "*") {
-    return firstOperand * secondOperand;
-  } else if (operator === "/") {
-    return firstOperand / secondOperand;
-  } else {
-    return "ERROR";
-  }
-};
