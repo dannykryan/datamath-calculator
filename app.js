@@ -1,95 +1,142 @@
 document.addEventListener("DOMContentLoaded", function() {
-  // Encapsulate variables in a function to avoid global scope pollution
-  function initializeCalculator() {
-    var mainDisplay = document.getElementById("display1");
-    var secondaryDisplay = document.getElementById("display2");
+  let mainDisplay = document.getElementById("display1");
+  let secondaryDisplay = document.getElementById("display2");
 
-    var firstOperand = 0;
-    var secondOperand = 0;
-    var operator = false;
-    var ready = true;
-    var mainDisplayLimit = 14; // Set a dynamic limit for the main display
+  let firstOperand = 0;
+  let secondOperand = 0;
+  let operator = false;
+  let ready = true;
+  let mainDisplayLimit = 14; 
+  let secondaryDisplayLimit = 28;
 
-    // Function to handle number button clicks
-    function handleNumberClick(event) {
-      if (ready === true) {
-        ready = false;
-        mainDisplay.textContent = "";
-        secondaryDisplay.textContent = "";
-      }
-
-      const buttonValue = event.target.getAttribute("data-value");
-      if (mainDisplay.textContent.length < mainDisplayLimit) {
-        mainDisplay.textContent += buttonValue;
-      }
-    }
-
-    // Function to handle operator button clicks
-    function handleOperatorClick(event) {
-      if (!operator) {
-        firstOperand = parseFloat(mainDisplay.textContent);
-        const operatorValue = event.target.getAttribute("data-value");
-        secondaryDisplay.textContent += mainDisplay.textContent;
-        mainDisplay.textContent = "";
-        operator = operatorValue;
-      } else {
-        secondOperand = parseFloat(mainDisplay.textContent);
-        firstOperand = calculate(firstOperand, secondOperand, operator);
-        const operatorValue = event.target.getAttribute("data-value");
-        secondaryDisplay.textContent += mainDisplay.textContent;
-        mainDisplay.textContent = "";
-        operator = operatorValue;
-      }
-
-      const operatorValue = event.target.getAttribute("data-value");
-      secondaryDisplay.textContent += operatorValue;
+  function handleNumberClick(event) {
+    if (ready === true) {
+      ready = false;
       mainDisplay.textContent = "";
+      secondaryDisplay.textContent = "";
     }
 
-    // Add event listeners for number buttons and operator buttons
-    var numberButtons = document.querySelectorAll(".number");
-    var operatorButtons = document.querySelectorAll(".operator");
+    const buttonValue = event.target.getAttribute("data-value");
 
-    numberButtons.forEach(function(button) {
-      button.addEventListener("click", handleNumberClick);
-    });
-
-    operatorButtons.forEach(function(button) {
-      button.addEventListener("click", handleOperatorClick);
-    });
-
-    // ... (Other event handlers)
-
-    // Reset function
-    function reset() {
-      firstOperand = 0;
-      secondOperand = 0;
-      operator = false;
-      ready = true;
+    if (mainDisplay.textContent.length < mainDisplayLimit) {
+      mainDisplay.textContent += buttonValue;
     }
+  }
 
-    // ... (Other functions)
+  function handleOperatorClick(event) {
+    if (!operator) {
+      firstOperand = parseFloat(mainDisplay.textContent);
+      const operatorValue = event.target.getAttribute("data-value");
 
-    // Updated calculate function to handle division by zero
-    function calculate(firstOperand, secondOperand, operator) {
-      if (operator === "+") {
-        return firstOperand + secondOperand;
-      } else if (operator === "-") {
-        return firstOperand - secondOperand;
-      } else if (operator === "*") {
-        return firstOperand * secondOperand;
-      } else if (operator === "/") {
-        if (secondOperand !== 0) {
-          return firstOperand / secondOperand;
-        } else {
-          return "ERROR: Division by zero";
-        }
+      // Check if adding the operator exceeds the secondaryDisplay limit
+      if (secondaryDisplay.textContent.length + operatorValue.length <= secondaryDisplayLimit) {
+        secondaryDisplay.textContent += mainDisplay.textContent;
+        mainDisplay.textContent = "";
+        operator = operatorValue;
       } else {
-        return "ERROR: Invalid operator";
+        secondaryDisplay.textContent = secondaryDisplay.textContent.substring(0, secondaryDisplayLimit - operatorValue.length);
+      }
+    } else {
+      secondOperand = parseFloat(mainDisplay.textContent);
+      firstOperand = calculate(firstOperand, secondOperand, operator);
+      const operatorValue = event.target.getAttribute("data-value");
+
+      // Check if adding the operator exceeds the secondaryDisplay limit
+      if (secondaryDisplay.textContent.length + operatorValue.length <= secondaryDisplayLimit) {
+        secondaryDisplay.textContent += mainDisplay.textContent;
+        mainDisplay.textContent = "";
+        operator = operatorValue;
+      } else {
+        secondaryDisplay.textContent = secondaryDisplay.textContent.substring(0, secondaryDisplayLimit - operatorValue.length);
       }
     }
   }
 
-  // Initialize the calculator when the DOM content is loaded
-  initializeCalculator();
+  function handleEqualsClick() {
+    secondaryDisplay.textContent += mainDisplay.textContent += "=";
+    secondOperand = parseFloat(mainDisplay.textContent);
+
+    if (!isNaN(secondOperand)) {
+      mainDisplay.textContent = calculate(firstOperand, secondOperand, operator);
+    } else {
+      mainDisplay.textContent = "ERROR";
+    }
+
+    reset();
+  }
+
+  function handleClearEntryClick() {
+    mainDisplay.textContent = "";
+  }
+
+  function handleClearClick() {
+    mainDisplay.textContent = "";
+    secondaryDisplay.textContent = "";
+  }
+
+  function handleDecimalClick(event) {
+    if (!mainDisplay.textContent.includes(".")) {
+      const buttonValue = event.target.getAttribute("data-value");
+      mainDisplay.textContent += buttonValue;
+    }
+  }
+
+  function reset() {
+    firstOperand = 0;
+    secondOperand = 0;
+    operator = false;
+    ready = true;
+  }
+
+  function calculate(firstOperand, secondOperand, operator) {
+    let result;
+  
+    if (operator === "+") {
+      result = firstOperand + secondOperand;
+    } else if (operator === "-") {
+      result = firstOperand - secondOperand;
+    } else if (operator === "*") {
+      result = firstOperand * secondOperand;
+    } else if (operator === "/") {
+      if (secondOperand !== 0) {
+        result = firstOperand / secondOperand;
+      } else {
+        return "ERROR: Division by zero";
+      }
+    } else {
+      return "ERROR: Invalid operator";
+    }
+  
+    // Convert result to a string
+    let resultString = result.toString();
+  
+    // Check if the result exceeds the mainDisplay limit
+    if (resultString.length > mainDisplayLimit) {
+      // Truncate the result to fit within the display limit
+      resultString = resultString.substring(0, mainDisplayLimit);
+      result = parseFloat(resultString);
+    }
+  
+    return result;
+  }
+
+  let numberButtons = document.querySelectorAll(".number");
+  let operatorButtons = document.querySelectorAll(".operator");
+  let equalsButton = document.querySelector(".equals");
+  let clearEntryButton = document.querySelector(".clear-entry");
+  let clearButton = document.querySelector(".clear");
+  let decimalButton = document.querySelector(".decimal");
+
+  numberButtons.forEach(function(button) {
+    button.addEventListener("click", handleNumberClick);
+  });
+
+  operatorButtons.forEach(function(button) {
+    button.addEventListener("click", handleOperatorClick);
+  });
+
+  equalsButton.addEventListener("click", handleEqualsClick);
+  clearEntryButton.addEventListener("click", handleClearEntryClick);
+  clearButton.addEventListener("click", handleClearClick);
+  decimalButton.addEventListener("click", handleDecimalClick);
 });
