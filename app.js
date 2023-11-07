@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let secondOperand = 0;
   let operator = false;
   let ready = true;
-  let mainDisplayLimit = 14; 
+  let mainDisplayLimit = 14;
   let secondaryDisplayLimit = 28;
 
   function handleNumberClick(event) {
@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
       const operatorValue = event.target.getAttribute("data-value");
 
       // Check if adding the operator exceeds the secondaryDisplay limit
-      if (secondaryDisplay.textContent.length + operatorValue.length <= secondaryDisplayLimit) {
-        secondaryDisplay.textContent += mainDisplay.textContent;
+      if (secondaryDisplay.textContent.length + mainDisplay.textContent.length + operatorValue.length <= secondaryDisplayLimit) {
+        secondaryDisplay.textContent += mainDisplay.textContent + operatorValue;
         mainDisplay.textContent = "";
         operator = operatorValue;
       } else {
@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", function() {
       const operatorValue = event.target.getAttribute("data-value");
 
       // Check if adding the operator exceeds the secondaryDisplay limit
-      if (secondaryDisplay.textContent.length + operatorValue.length <= secondaryDisplayLimit) {
-        secondaryDisplay.textContent += mainDisplay.textContent;
+      if (secondaryDisplay.textContent.length + mainDisplay.textContent.length + operatorValue.length <= secondaryDisplayLimit) {
+        secondaryDisplay.textContent += mainDisplay.textContent + operatorValue;
         mainDisplay.textContent = "";
         operator = operatorValue;
       } else {
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function calculate(firstOperand, secondOperand, operator) {
     let result;
-  
+
     if (operator === "+") {
       result = firstOperand + secondOperand;
     } else if (operator === "-") {
@@ -106,17 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
       return "ERROR: Invalid operator";
     }
-  
-    // Convert result to a string
-    let resultString = result.toString();
-  
-    // Check if the result exceeds the mainDisplay limit
-    if (resultString.length > mainDisplayLimit) {
-      // Truncate the result to fit within the display limit
-      resultString = resultString.substring(0, mainDisplayLimit);
-      result = parseFloat(resultString);
-    }
-  
+
     return result;
   }
 
