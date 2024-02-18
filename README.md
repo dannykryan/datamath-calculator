@@ -1,6 +1,6 @@
 # Datamath Calculator
 
-[![Datamath Calculator](/Assets/datamath-header.png)](https://dannykryan.github.io/datamath-calculator/)
+[![Datamath Calculator](/Assets/datamath-header.PNG)](https://dannykryan.github.io/datamath-calculator/)
 
 Try Online: [Datamath Calculator](https://dannykryan.github.io/datamath-calculator/)
 
